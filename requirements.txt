@@ -1,0 +1,4 @@
+memory-profiler==0.61.0
+pyspark
+emoji
+findspark
