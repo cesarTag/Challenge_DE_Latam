@@ -1,5 +1,15 @@
 # Data Engineer Challenge
-​
+
+---
+###Revisar los siguientes archivos para los paso a paso, resultados e hipotesis en la fase de exploracion e experimentacion.
+**La ejecucion y resultados estan en el archivo [Ver challenge.ipynb](./src/challenge.ipynb)**
+
+**La implementacion y su paso a paso esta en el archivo [Ver challenge_explain.ipynb](./src/challenge_explain.ipynb)**
+
+**La documentacion de los codigos se encuentran en en el archivo [Ver README.md](./src/README.md)**
+
+---
+
 ## Descripción General
 Bienvenido al desafío para Ingenieros de Datos. En esta ocasión, tendrás la oportunidad de acercarte a parte de la realidad del rol, demostrar tus habilidades y conocimientos en procesamiento de datos con python y diferentes estructuras de datos.
 ​
