@@ -8,7 +8,7 @@ import emoji
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def q2_memory_emoji_optimized_time(file_path: str) -> List[Tuple[str, int]]:
+def q2_memory(file_path: str) -> List[Tuple[str, int]]:
     """
     Procesa un archivo NDJSON para contar las ocurrencias de emojis en los tweets,
     optimizando el tiempo de ejecución.

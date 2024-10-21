@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 
-def q1_memory_optimized_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
+def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
     """
     Procesa un archivo NDJSON línea por línea, contando la cantidad de tweets por fecha
     y por usuario, optimizando el uso de memoria con generadores.

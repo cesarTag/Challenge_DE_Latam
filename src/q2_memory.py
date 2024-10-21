@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 
-def q2_memory_emoji_optimized_memory(file_path: str) -> List[Tuple[str, int]]:
+def q2_memory(file_path: str) -> List[Tuple[str, int]]:
     """
     Procesa un archivo NDJSON en streaming para contar las ocurrencias de emojis
     en los tweets, optimizando el uso de memoria.
