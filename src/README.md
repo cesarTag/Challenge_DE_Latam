@@ -193,10 +193,10 @@ Esta versión utiliza **`tqdm`** para procesar el archivo en paralelo, acelerand
 
 | **Enfoque**               | **Velocidad**            | **Memoria**            | **Escalabilidad**           | **Complejidad**            | **Recomendado para NDJSON de 400 MB** |
 |---------------------------|--------------------------|------------------------|-----------------------------|----------------------------|--------------------------------------|
-| **q1_memory_json.py**      | Rápido                    | Muy bajo               | Baja                        | Baja                       | Sí (si la simplicidad es clave)     |
-| **q1_memory_polars.py**    | Moderado                   | Alta               | Alta                        | Media                      | Sí (si se necesita velocidad)       |
-| **q1_memory_pyspark.py**   | Muy rápido (distribuido) | Moderada               | Muy alta                    | Alta                       | No (excesivo para 400 MB)           |
-| **q1_memory_tqdm.py**      | Rápido (paralelo)        | Alta                   | Alta                        | Media                      | Sí (en sistemas multicore)          |
+| **[q1_memory_json.py](./q1_memory_json.py)**      | Rápido                    | Muy bajo               | Baja                        | Baja                       | Sí (si la simplicidad es clave)     |
+| **[q1_memory_polars.py](./q1_memory_polars.py)**    | Moderado                   | Alta               | Alta                        | Media                      | Sí (si se necesita velocidad)       |
+| **[q1_memory_pyspark.py](./q1_memory_pyspark.py)**   | Muy rápido (distribuido) | Moderada               | Muy alta                    | Alta                       | No (excesivo para 400 MB)           |
+| **[q1_memory_tqdm.py](./q1_memory_tqdm.py)**      | Rápido (paralelo)        | Alta                   | Alta                        | Media                      | Sí (en sistemas multicore)          |
 
 ---
 
@@ -204,10 +204,10 @@ Esta versión utiliza **`tqdm`** para procesar el archivo en paralelo, acelerand
 
 Para un archivo **NDJSON de 400 MB**, las opciones más recomendadas son:
 
-- **`q1_memory_json.py`**: Si se prioriza la simplicidad y el uso eficiente de memoria.
-- **`q1_memory_tqdm.py`**: Ideal si se tiene acceso a una máquina con múltiples núcleos para aprovechar el procesamiento paralelo.
-- **`q1_memory_polars.py`**: Si se necesita mayor velocidad sin comprometer demasiada memoria.
+- **[q1_memory_json.py](./q1_memory_json.py)** : Si se prioriza la simplicidad y el uso eficiente de memoria.
+- **[q1_memory_tqdm.py](./q1_memory_tqdm.py): Ideal si se tiene acceso a una máquina con múltiples núcleos para aprovechar el procesamiento paralelo.
+- **[q1_memory_polars.py](./q1_memory_polars.py)**: Si se necesita mayor velocidad sin comprometer demasiada memoria.
 
-El enfoque con **PySpark** es más adecuado para datasets más grandes o si el procesamiento forma parte de un flujo distribuido.
+El enfoque con **PySpark** en el archivo **[q1_memory_pyspark.py](./q1_memory_pyspark.py)** es adecuado para datasets más grandes o si el procesamiento forma parte de un flujo distribuido.
 
 **Es por esto que para el resto de los desafios se realizaron basados en la libreria json de python.**
