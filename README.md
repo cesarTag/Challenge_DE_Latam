@@ -1,7 +1,7 @@
 # Data Engineer Challenge
 
 ---
-###Revisar los siguientes archivos para los paso a paso, resultados e hipotesis en la fase de exploracion e experimentacion.
+### Revisar los siguientes archivos para los paso a paso, resultados e hipotesis en la fase de exploracion e experimentacion.
 **La ejecucion y resultados estan en el archivo [Ver challenge.ipynb](./src/challenge.ipynb)**
 
 **La implementacion y su paso a paso esta en el archivo [Ver challenge_explain.ipynb](./src/challenge_explain.ipynb)**
