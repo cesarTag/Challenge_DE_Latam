@@ -226,6 +226,20 @@ Actualmente, no aprovecha múltiples núcleos de CPU, aunque se puede extender f
 Usa contadores en memoria, lo que puede ser problemático para archivos extremadamente grandes.
 
 ---
+## **Comparación General de las Implementaciones Q1**
+
+| **Aspecto**                 | **Optimización en Memoria** (`q1_memory`)                | **Optimización en Tiempo** (`q1_time`)                   |
+|-----------------------------|----------------------------------------------------------|---------------------------------------------------------|
+| **Objetivo Principal**       | Minimizar el consumo de memoria durante la ejecución.    | Acelerar el procesamiento para obtener resultados más rápidamente. |
+| **Estructuras de Datos**     | Utiliza **múltiples contadores** (`Counter` y `defaultdict`) para dividir las tareas. | Utiliza un **único contador global** para evitar múltiples operaciones. |
+| **Uso de Generadores**       | Sí, para evitar cargar todo el archivo en memoria.       | Sí, para mantener un flujo rápido de lectura.            |
+| **Actualización de Contadores** | Distribuye la carga entre contadores más pequeños por fecha y usuario. | Mantiene un contador global para minimizar las operaciones. |
+| **Manejo de Errores**        | Registra advertencias en el logger para tweets malformados sin detener la ejecución. | Maneja errores de forma similar, priorizando la velocidad. |
+| **Velocidad**                | Más lento debido a la gestión distribuida de contadores. | Más rápido al utilizar un flujo continuo con menos operaciones. |
+| **Consumo de Memoria**       | Menor, debido al uso de múltiples contadores más pequeños. | Mayor, ya que el contador global ocupa más espacio en memoria. |
+| **Escalabilidad**            | Ideal para sistemas con recursos de memoria limitados.  | Ideal para sistemas donde la velocidad es más importante que la memoria. |
+
+---
 
 ## **3. Archivo: `q2_memory.py`**  
 

@@ -1,15 +1,40 @@
 # Data Engineer Challenge
 
 ---
-### Revisar los siguientes archivos para los paso a paso, resultados e hipotesis en la fase de exploracion e experimentacion.
-**La ejecucion y resultados estan en el archivo [Ver challenge.ipynb](./src/challenge.ipynb)**
+## Revisar los siguientes archivos para los paso a paso, resultados e hipotesis en la fase de exploracion e experimentacion.
+**La ejecucion y resultados estan en el archivo [Ver challenge.ipynb](src/challenge__.ipynb)**
 
 **La implementacion y su paso a paso esta en el archivo [Ver challenge_explain.ipynb](./src/challenge_explain.ipynb)**
 
 **La documentacion de los codigos se encuentran en en el archivo [Ver README.md](./src/README.md)**
 
+- Los tiempos de ejecucion y uso de Memoria fueron medidos en Google Colab, como mejora se pueden implementar los metodos de forma local o mediante un cloud run en la nube de gcp por ejemplo para su medicion.
+---
+## Trabajos Futuros
+**Se sugiere realizar la implementacion Cloud mediante el Framework Flask para exponer los endpoints que reciban los requests**
+**para la ejecucion de los distintos trabajos.**
+- Crear archivo Python con framework Flask.
+- Crear Dockerfile para crear imagen en github actions.
+- Setear Secretos en github para pushear la imagen a un container registry de GCP por ejemplo.
+- Crear Cloud run en base a la imagen creada para disponibilizar los endpoints.
+- Experimentar mediante cUrl o Postman. 
+
+- Se incluye la configuracion del servidor, endpoints, dockerfile y archivo de github actions para desplegar en la nube, pero no fue utilizado, fue creado de forma didactica y no posee optimizacion alguna.
 ---
 
+### Descripción del Workflow GitHub Actions (Opcional)
+- **Desencadenador:**
+El flujo se activa en cada push al branch main.
+- **Autenticación en GCP:**
+Usa una key de servicio almacenada como secreto en GitHub (GCP_SERVICE_ACCOUNT_KEY) para autenticarse en GCP y en el Container Registry.
+- **Configuración del Proyecto de GCP:**
+Establece el ID del proyecto usando el secreto GCP_PROJECT_ID.
+- **Construcción y Push de la Imagen Docker:**
+Construye la imagen Docker del proyecto y la sube al Container Registry.
+- **Despliegue en Cloud Run:**
+Despliega la imagen en Cloud Run, con la opción de permitir acceso no autenticado y escuchando en el puerto 8080.
+- **Deben existir los siguientes secretos en github `GCP_SERVICE_ACCOUNT_KEY` `GCP_PROJECT_ID` `GCP_REGION` .**
+---
 ## Descripción General
 Bienvenido al desafío para Ingenieros de Datos. En esta ocasión, tendrás la oportunidad de acercarte a parte de la realidad del rol, demostrar tus habilidades y conocimientos en procesamiento de datos con python y diferentes estructuras de datos.
 ​
