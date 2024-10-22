@@ -2,61 +2,101 @@ import re
 import json
 import logging
 from collections import Counter
-from typing import List, Tuple
+from typing import List, Tuple, Generator, Dict
 
 # Configuración del logger
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
+
+
+def leer_tweets(file_path: str) -> Generator[Dict, None, None]:
+    """
+    Lee el archivo NDJSON línea por línea y genera objetos JSON.
+
+    Args:
+        file_path (str): Ruta del archivo NDJSON.
+
+    Yields:
+        Dict: Tweet decodificado como objeto JSON.
+
+    Raises:
+        FileNotFoundError: Si el archivo no se encuentra.
+        IOError: Si hay problemas al abrir el archivo.
+    """
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                try:
+                    yield json.loads(line.strip())
+                except json.JSONDecodeError as e:
+                    logger.warning(f"Error al decodificar JSON: {e}")
+    except (FileNotFoundError, IOError) as e:
+        logger.error(f"Error al abrir el archivo: {e}")
+        raise
+
+
+def map_mentions(tweets: Generator[Dict, None, None]) -> Counter:
+    """
+    Mapea los tweets para extraer y contar menciones de usuarios.
+
+    Args:
+        tweets (Generator): Generador de tweets en formato JSON.
+
+    Returns:
+        Counter: Contador con las ocurrencias de cada usuario mencionado.
+    """
+    username_pattern = re.compile(r'@(\w+)')
+    mention_counter = Counter()
+
+    for tweet in tweets:
+        content = tweet.get('content', '')
+        mentioned_users = username_pattern.findall(content)
+        if mentioned_users:
+            mention_counter.update(mentioned_users)
+
+    return mention_counter
+
+
+def reduce_mentions(mention_counters: List[Counter]) -> Counter:
+    """
+    Reduce los contadores de menciones para obtener el total de ocurrencias.
+
+    Args:
+        mention_counters (List[Counter]): Lista de contadores de menciones.
+
+    Returns:
+        Counter: Contador combinado con las ocurrencias totales.
+    """
+    total_counter = Counter()
+    for counter in mention_counters:
+        total_counter.update(counter)
+    return total_counter
 
 
 def q3_memory(file_path: str) -> List[Tuple[str, int]]:
     """
-    Procesa un archivo NDJSON para contar las menciones de usuarios en los tweets,
-    optimizando el uso de memoria.
+    Función principal que coordina las fases de Map y Reduce para contar menciones de usuarios.
 
     Args:
         file_path (str): Ruta del archivo NDJSON.
 
     Returns:
         List[Tuple[str, int]]: Lista de los 10 usuarios más mencionados con sus frecuencias.
+
+    Raises:
+        ValueError: Si el path del archivo es nulo o vacío.
     """
-    # Compilar la expresión regular para encontrar menciones (@usuario)
-    username_pattern = re.compile(r'@(\w+)')
+    if not file_path:
+        logger.error("El path no debe ser nulo o vacío.")
+        raise ValueError("El path no debe ser nulo o vacío.")
 
-    # Inicializar el contador para los nombres de usuario
-    mention_counter = Counter()
+    tweets = leer_tweets(file_path)
+    mention_counter = map_mentions(tweets)
 
-    try:
-        # Abrir el archivo y procesar línea por línea (minimiza uso de memoria)
-        with open(file_path, 'r') as tweet_file:
-            for tweet_json in tweet_file:
-                try:
-                    # Parsear la línea como JSON
-                    tweet_data = json.loads(tweet_json.strip())
-                except json.JSONDecodeError as e:
-                    # Registrar advertencia y continuar con la siguiente línea
-                    logger.warning(f"Error al decodificar JSON: {e}")
-                    continue
+    result = mention_counter.most_common(10)
 
-                # Extraer el contenido del tweet si está disponible
-                tweet_content = tweet_data.get('content', '')
+    logger.info(f"Top 10 usuarios mencionados: {result}")
 
-                # Encontrar todas las menciones de usuario en el contenido
-                mentioned_users = username_pattern.findall(tweet_content)
-
-                # Actualizar el contador solo si hay menciones
-                if mentioned_users:
-                    mention_counter.update(mentioned_users)
-
-    except (FileNotFoundError, IOError) as e:
-        # Registrar error si el archivo no se encuentra o no se puede abrir
-        logger.error(f"Error al abrir el archivo: {e}")
-        raise
-
-    # Obtener los 10 usuarios más mencionados
-    top_mentioned_users = mention_counter.most_common(10)
-
-    # Registrar los usuarios más mencionados
-    logger.info(f"Top 10 usuarios mencionados: {top_mentioned_users}")
-
-    return top_mentioned_users
+    return result

@@ -1,0 +1,38 @@
+name: Deploy to GCP Cloud Run
+
+on:
+  push:
+    branches:
+      - main_
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v1
+
+    - name: Authenticate with GCP
+      run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | docker login -u _json_key --password-stdin https://gcr.io
+
+    - name: Configure GCP Project
+      run: gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Build and Push Docker Image
+      run: |
+        IMAGE_NAME=gcr.io/${{ secrets.GCP_PROJECT_ID }}/q123-app:latest
+        docker build -t $IMAGE_NAME .
+        docker push $IMAGE_NAME
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy q123-app \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/q123-app:latest \
+          --platform managed \
+          --region ${{ secrets.GCP_REGION }} \
+          --allow-unauthenticated \
+          --port 8080
